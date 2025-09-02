@@ -4,7 +4,7 @@ C = 0.3; %these velocities are calculated in meters/nanosecond
 
 imo = readtable("cmp3-Point.csv",NumHeaderLines=3);
 
-base = readtable("line14_base-Point.csv",NumHeaderLines=3);
+% base = readtable("line14_base-Point.csv",NumHeaderLines=3);
 
 
 [v1, t01,sig1, cov1,d_hat1] = cmpLS(imo.Position_m_, imo.Time_ns_);

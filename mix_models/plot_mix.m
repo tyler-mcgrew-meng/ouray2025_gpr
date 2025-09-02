@@ -20,7 +20,7 @@ for i = 1:length(eps)
     end
 end
 
-rg_vel = [0.14 0.15 0.168 0.165 0.16 0.147 0.17 0.109 0.128 0.112]; %wave speed results
+rg_vel = [0.14 0.154]; %wave speed results
 % [gp19 sp19 gc20a gc19 gc16 sc20b sc20a egc23 sc23 iceland24]
 
 rg_eps = C^2./rg_vel.^2;
