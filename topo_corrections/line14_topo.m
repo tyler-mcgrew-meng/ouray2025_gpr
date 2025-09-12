@@ -8,21 +8,26 @@ clear all; close all;
 %variable name to line#_t
 
 
+%Meng, T.M., Petersen, E.I. and Holt, J.W. (2023) “Rock glacier composition and structure from radio wave speed analysis with dipping reflector correction,” Journal of Glaciology, 69(275), pp. 639–657. Available at: https://doi.org/10.1017/jog.2022.90.
+
+%Meng, T.M. et al. (2025) “Effects of Rock Glacier Dynamics on Surface Morphology and Deformation,” Journal of Geophysical Research: Earth Surface, 130(3), p. e2024JF008106. Available at: https://doi.org/10.1029/2024JF008106.
+
+
 % load GPR and topography data 
-load('csv/line1.mat');
+load('csv/line14.mat');
 % imo_long_x = 0:0.25:99; % 100 MHz
 
-imo_long_x = line1_x; % 25 MHz
+imo_long_x = line14_x; % 25 MHz
 
 % imo_long_x = 0:96; % 25 MHz
-imo_long_t = line1_t;
-amplitude = line1;
+imo_long_t = line14_t;
+amplitude = line14;
 
-imo_long_topo = rmmissing(readtable('topo/line1_topo.csv')); topo_z = (imo_long_topo.z);
+imo_long_topo = rmmissing(readtable('topo/line14_topo.csv')); topo_z = (imo_long_topo.z);
 topo_x = imo_long_topo.x;
 
-% debris_interp = readtable('interp/line17-18_debris.csv', 'NumHeaderLines',3);
-% base_interp = readtable('interp/line17-18_base.csv', 'NumHeaderLines',3);
+% debris_interp = readtable('interp/line147-18_debris.csv', 'NumHeaderLines',3);
+% base_interp = readtable('interp/line147-18_base.csv', 'NumHeaderLines',3);
 
 %assumed or measured velocity (m/ns)
 v1 = 0.14;
@@ -89,7 +94,7 @@ figure(3);
 pcolor(imo_long_x, imo_long_elev, flipud(imo_long_shift)); 
 shading interp; hold on;
 plot(imo_long_x, topo_interp-3,'k', 'LineWidth', 2);
-ylim([3440 max(imo_long_elev)]);
+ylim([3730 max(imo_long_elev)]);
 % xlim([0 100]);
 caxis([-5e6 5e6]);
 colormap bone;

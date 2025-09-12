@@ -3,10 +3,7 @@ clear all; close all;
 
 %import tool
 %double click on csv file, select numeric matrix option 
-%select range of position row (row 2), and import selection, change variable name to line#_x
-%slect range of time column (column B), and import selection, change
-%variable name to line#_t
-
+%select range of position row (row 2), and import, change n
 
 % load GPR and topography data 
 load('csv/line1.mat');
