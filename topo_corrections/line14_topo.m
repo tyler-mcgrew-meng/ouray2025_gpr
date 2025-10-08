@@ -23,7 +23,7 @@ imo_long_x = line14_x; % 25 MHz
 imo_long_t = line14_t;
 amplitude = line14;
 
-imo_long_topo = rmmissing(readtable('topo/line14_topo.csv')); topo_z = (imo_long_topo.z);
+imo_long_topo = rmmissing(readtable('topo/line14_topo_hires.csv')); topo_z = (imo_long_topo.z);
 topo_x = imo_long_topo.x;
 
 % debris_interp = readtable('interp/line147-18_debris.csv', 'NumHeaderLines',3);
@@ -56,10 +56,19 @@ datum = max(topo_z);
 
 %interpolate topography data to match GPR sample spacing 
 topo_x = topo_x(2:length(topo_x)-1); topo_z = topo_z(2:length(topo_z)-1);
+
+%%%for hi-resolution topography, I had to modify these specific x values
+%because of the parsing of the QGIS-exported topography profile, leading to
+%repeated values at these specific indices, throwing an error when calling
+%"griddedInterpolant"
+topo_x(286:313) = 10.03:0.03:10.84;
+
 F = griddedInterpolant(topo_x, topo_z)
 topo_interp = F(imo_long_x);
 % topo_interp = interp1(topo_x,topo_z,imo_long_x);
 datum = max(topo_interp);
+
+
 
 % calculate elevation offset in meters and array indices
 shift = datum-topo_interp;
@@ -93,7 +102,7 @@ colormap bone;
 figure(3);
 pcolor(imo_long_x, imo_long_elev, flipud(imo_long_shift)); 
 shading interp; hold on;
-plot(imo_long_x, topo_interp-3,'k', 'LineWidth', 2);
+plot(imo_long_x, topo_interp,'k', 'LineWidth', 2);
 ylim([3730 max(imo_long_elev)]);
 % xlim([0 100]);
 caxis([-5e6 5e6]);
