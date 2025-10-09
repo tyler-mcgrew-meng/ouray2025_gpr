@@ -94,7 +94,7 @@ pcolor(imo_long_x, imo_long_depth, imo_long_gain); hold on;
 shading interp; 
 % plot(base_interp.Position_m_, base_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
 % plot(debris_interp.Position_m_, debris_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
-ylim([0 20]);
+ylim([0 50]);
 caxis([-5e6 5e6]);
 axis ij;
 colormap bone;
