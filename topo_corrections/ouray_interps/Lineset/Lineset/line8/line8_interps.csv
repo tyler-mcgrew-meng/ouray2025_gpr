@@ -1,0 +1,12 @@
+"Name","Description","Count"
+"line8_base","",9
+"Tool","Interpretation","GPR Line","Interpretation Number","Position(m)","X(m)","Y(m)","Z(m)","Depth(m)","Time(ns)","Amplitude(mV)","Velocity(m/ns)","GPS-n/a","GPS-n/a","GPS-n/a","GPS-n/a","Elevation(m)","GPS-n/a","Comment"
+"Point","line8_base","Lineset\line8",3,19.337,19.337,0.000,-15.667,15.667,212.28,-7.561,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","line8_base","Lineset\line8",3,30.910,30.910,0.000,-13.237,13.237,177.90,-8.741,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","line8_base","Lineset\line8",3,35.711,35.711,0.000,-14.241,14.241,192.10,-5.090,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","line8_base","Lineset\line8",3,40.513,40.513,0.000,-14.189,14.189,191.36,-5.718,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","line8_base","Lineset\line8",3,46.053,46.053,0.000,-13.977,13.977,188.37,-8.696,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","line8_base","Lineset\line8",3,52.085,52.085,0.000,-13.766,13.766,185.38,-10.569,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","line8_base","Lineset\line8",3,57.626,57.626,0.000,-13.184,13.184,177.15,-12.238,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","line8_base","Lineset\line8",3,62.058,62.058,0.000,-13.924,13.924,187.62,-9.073,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","line8_base","Lineset\line8",3,67.106,67.106,0.000,-14.611,14.611,197.33,-3.206,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
