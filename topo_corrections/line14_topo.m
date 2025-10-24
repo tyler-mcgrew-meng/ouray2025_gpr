@@ -120,6 +120,33 @@ xlabel('Horizontal Position (m)','FontSize',30);
 ylabel('Elevation (m)', 'FontSize', 30);
 % title('Lines 17 & 18','FontSize',30);
 
+trace_a = 10;
+trace_b = 86;
+
+figure(4);
+subplot 121
+plot(line14(:,trace_a),line14_t,'k','LineWidth',2); hold on;
+axis ij; 
+ylim([0 700]);
+
+subplot 122
+plot(line14(:,trace_b),line14_t,'k','LineWidth',2); hold on;
+axis ij;
+ylim([0 700]);
+
+figure(5);
+pcolor(line14_x, line14_t, line14); hold on;
+plot([trace_a trace_a],[0 700],'r','LineWidth',2); hold on;
+plot([trace_b trace_b],[0 700],'r','LineWidth',2);
+
+shading interp; 
+% plot(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, 'r-','LineWidth',4);
+% plot(debris_interp.Position_m_, debris_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
+ylim([0 700]);
+% caxis([-5e6 5e6]);
+axis ij;
+colormap bone;
+
 
 base_out = horzcat(topo_x,topo_E,topo_N,topo_z,base_interpolate);
-writematrix(base_out,strcat('topo/line14_base.csv'));
+% writematrix(base_out,strcat('topo/line14_base.csv'));
