@@ -68,7 +68,7 @@ topo_E = topo_E(2:length(topo_E)-1); topo_N = topo_N(2:length(topo_N)-1);
 %"griddedInterpolant"
 topo_x(286:313) = 10.03:0.03:10.84;
 
-F = griddedInterpolant(topo_x, topo_z)
+F = griddedInterpolant(topo_x, topo_z);
 topo_interp = F(imo_long_x);
 % topo_interp = interp1(topo_x,topo_z,imo_long_x);
 datum = max(topo_interp);
@@ -125,12 +125,12 @@ trace_b = 86;
 
 figure(4);
 subplot 121
-semilogx(line14(:,trace_a).^2,line14_t,'k','LineWidth',2); hold on;
+plot(10*log10(line14(:,trace_a)/max(max(line14))),line14_t,'k','LineWidth',2); hold on;
 axis ij; 
 ylim([0 700]);
 
 subplot 122
-semilogx(line14(:,trace_b).^2,line14_t,'k','LineWidth',2); hold on;
+plot(10*log10(line14(:,trace_b)/max(max(line14))),line14_t,'k','LineWidth',2); hold on;
 axis ij; 
 ylim([0 700]);
 
