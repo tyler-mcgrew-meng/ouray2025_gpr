@@ -125,13 +125,13 @@ trace_b = 86;
 
 figure(4);
 subplot 121
-plot(line14(:,trace_a),line14_t,'k','LineWidth',2); hold on;
+semilogx(line14(:,trace_a).^2,line14_t,'k','LineWidth',2); hold on;
 axis ij; 
 ylim([0 700]);
 
 subplot 122
-plot(line14(:,trace_b),line14_t,'k','LineWidth',2); hold on;
-axis ij;
+semilogx(line14(:,trace_b).^2,line14_t,'k','LineWidth',2); hold on;
+axis ij; 
 ylim([0 700]);
 
 figure(5);
