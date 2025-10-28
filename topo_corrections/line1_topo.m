@@ -9,8 +9,20 @@ clear all; close all;
 
 
 % load GPR and topography data 
-load('csv/line1.mat');
+load('csv/imo_long_1.mat');
+load('csv/imo_long_2.mat');
+
 % imo_long_x = 0:0.25:99; % 100 MHz
+
+
+MergedLine2_x = MergedLine2_x + max(MergedLine_x);
+
+figure(1);
+pcolor(MergedLine2_x,MergedLine2_t, MergedLine2); hold on; shading interp; axis ij; colormap bone;
+pcolor(MergedLine_x,MergedLine_t, MergedLine); shading interp;
+clim([-1e4 1e4]);
+
+xlim([0 500]);
 
 imo_long_x = line1_x; % 25 MHz
 

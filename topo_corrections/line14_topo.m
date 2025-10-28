@@ -74,7 +74,28 @@ topo_interp = F(imo_long_x);
 datum = max(topo_interp);
 
 base_interpolate = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, topo_x);
+base_trace = interp1(base_interp.Position_m_, base_interp.Time_ns_, imo_long_x);
+base_depth = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, imo_long_x);
 
+
+
+power = zeros(size(imo_long_x));
+
+dt = imo_long_t(2)-imo_long_t(1);
+
+for i = 3:length(imo_long_x)-2
+    window = imo_long_t(imo_long_t-base_trace(i) < 10 & imo_long_t-base_trace(i) > -10);
+    for j = 1:length(imo_long_t)
+        for k = length(window)
+        if imo_long_t(j) == window(k)
+            amps(k) = amplitude(j,i)
+        else break
+        end
+        end
+    
+    end
+        power(i) = max(amps.^2);
+end
 
 % calculate elevation offset in meters and array indices
 shift = datum-topo_interp;
@@ -124,29 +145,47 @@ trace_a = 10;
 trace_b = 86;
 
 figure(4);
-subplot 121
-plot(10*log10(line14(:,trace_a)/max(max(line14))),line14_t,'k','LineWidth',2); hold on;
+subplot 141
+plot(10*log10(line14(:,trace_a)/max(max(line14))),0.5*v1*line14_t,'k','LineWidth',2); hold on;
 axis ij; 
-ylim([0 700]);
+ylim([0 50]);
 
-subplot 122
-plot(10*log10(line14(:,trace_b)/max(max(line14))),line14_t,'k','LineWidth',2); hold on;
+subplot 142
+plot(10*log10(line14(:,trace_b)/max(max(line14))),0.5*v1*line14_t,'k','LineWidth',2); hold on;
 axis ij; 
-ylim([0 700]);
+ylim([0 50]);
+
+subplot 143
+plot((10*log10(line14(:,trace_a).^2)),0.5*v1*line14_t,'k','LineWidth',2); hold on;
+axis ij; 
+ylim([0 50]);
+
+subplot 144
+plot((10*log10(line14(:,trace_b).^2)),0.5*v1*line14_t,'k','LineWidth',2); hold on;
+axis ij; 
+ylim([0 50]);
 
 figure(5);
-pcolor(line14_x, line14_t, line14); hold on;
-plot([trace_a trace_a],[0 700],'r','LineWidth',2); hold on;
-plot([trace_b trace_b],[0 700],'r','LineWidth',2);
+pcolor(line14_x, 0.5*v1*line14_t, line14); hold on;
+plot([trace_a trace_a],[0 50],'r','LineWidth',2); hold on;
+plot([trace_b trace_b],[0 50],'r','LineWidth',2);
 
 shading interp; 
 % plot(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, 'r-','LineWidth',4);
 % plot(debris_interp.Position_m_, debris_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
-ylim([0 700]);
-% caxis([-5e6 5e6]);
+ylim([0 50]);
+% caxis([0 1e8]);
 axis ij;
 colormap bone;
 
+figure(6);
+scatter(base_depth,10*log10(power));hold on;
+
+fit = polyfit(base_depth(3:95),10*log10(power(3:95)),1);
+
+plot(base_depth, fit(1)*base_depth+fit(2));
+
+%account for geometric spreading loss 
 
 base_out = horzcat(topo_x,topo_E,topo_N,topo_z,base_interpolate);
 % writematrix(base_out,strcat('topo/line14_base.csv'));
