@@ -83,18 +83,29 @@ power = zeros(size(imo_long_x));
 
 dt = imo_long_t(2)-imo_long_t(1);
 
+win_size = 20;
+
 for i = 3:length(imo_long_x)-2
-    window = imo_long_t(imo_long_t-base_trace(i) < 10 & imo_long_t-base_trace(i) > -10);
-    for j = 1:length(imo_long_t)
-        for k = length(window)
-        if imo_long_t(j) == window(k)
-            amps(k) = amplitude(j,i)
-        else break
-        end
-        end
+    window = imo_long_t(base_trace(i)-imo_long_t < win_size & base_trace(i)-imo_long_t > - win_size);
     
-    end
-        power(i) = max(amps.^2);
+    amps1 = amplitude(:,i);
+    amps = amps1(base_trace(i)-imo_long_t < win_size & base_trace(i)-imo_long_t > - win_size);
+    % for k = length(window)
+    %     for j = 1:length(imo_long_t)
+    % 
+    %     if imo_long_t(j) == window(k)
+    %         amps(k) = amplitude(j,i)
+    %     else 
+    %     end
+    %     end
+    
+    % end
+        pow = amps.^2;
+        power(i) = max(pow);
+        t_window = window(pow == max(pow));
+        t_max(i) = t_window(1);
+        pow = []; amps = []; amps1 = []; window = []; t_window = [];
+       
 end
 
 % calculate elevation offset in meters and array indices
@@ -120,6 +131,8 @@ figure(2);
 pcolor(imo_long_x, imo_long_depth, imo_long_gain); hold on;
 shading interp; 
 plot(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, 'r-','LineWidth',4);
+
+plot(imo_long_x(2:96),0.5*t_max*v1, 'm*','LineWidth',4);
 % plot(debris_interp.Position_m_, debris_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
 ylim([0 50]);
 caxis([-5e6 5e6]);
@@ -157,31 +170,39 @@ ylim([0 50]);
 
 subplot 143
 plot((10*log10(line14(:,trace_a).^2)),0.5*v1*line14_t,'k','LineWidth',2); hold on;
+plot(10*log10(power(trace_a)),0.5*t_max(trace_a)*v1, 'r*');
 axis ij; 
 ylim([0 50]);
 
 subplot 144
 plot((10*log10(line14(:,trace_b).^2)),0.5*v1*line14_t,'k','LineWidth',2); hold on;
-axis ij; 
+
+plot(10*log10(power(trace_b)),0.5*t_max(trace_b)*v1, 'r*');axis ij; 
 ylim([0 50]);
 
 figure(5);
-pcolor(line14_x, 0.5*v1*line14_t, line14); hold on;
+pcolor(line14_x, 0.5*v1*line14_t, 10*log10(line14.^2)); hold on;
 plot([trace_a trace_a],[0 50],'r','LineWidth',2); hold on;
 plot([trace_b trace_b],[0 50],'r','LineWidth',2);
+plot(imo_long_x(2:96), 0.5*v1*t_max,'r*', 'LineWidth', 4);
 
-shading interp; 
+shading flat; 
 % plot(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, 'r-','LineWidth',4);
 % plot(debris_interp.Position_m_, debris_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
 ylim([0 50]);
-% caxis([0 1e8]);
+caxis([60 90]);
 axis ij;
-colormap bone;
+colormap parula;
+colorbar;
+
+
+geometric_correction = power.*base_depth.^2;
 
 figure(6);
 scatter(base_depth,10*log10(power));hold on;
+scatter(base_depth,10*log10(geometric_correction));
 
-fit = polyfit(base_depth(3:95),10*log10(power(3:95)),1);
+fit = polyfit(base_depth(3:95),10*log10(geometric_correction(3:95)),1);
 
 plot(base_depth, fit(1)*base_depth+fit(2));
 
