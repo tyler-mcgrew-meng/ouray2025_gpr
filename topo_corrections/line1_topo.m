@@ -115,7 +115,7 @@ shading interp;
 % plot(debris_interp.Position_m_, debris_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
 % ylim([0 20])
 xlim([0 495]);
-ylim([0 35]);
+ylim([0 60]);
 caxis([-5e6 5e6]);
 axis ij;
 colormap bone;
