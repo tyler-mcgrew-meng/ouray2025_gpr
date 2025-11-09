@@ -158,23 +158,23 @@ trace_a = 10;
 trace_b = 86;
 
 figure(4);
-subplot 141
-plot(10*log10(line14(:,trace_a)/max(max(line14))),0.5*v1*line14_t,'k','LineWidth',2); hold on;
-axis ij; 
-ylim([0 50]);
+% subplot 141
+% plot(10*log10(line14(:,trace_a)/max(max(line14))),0.5*v1*line14_t,'k','LineWidth',2); hold on;
+% axis ij; 
+% ylim([0 50]);
+% 
+% subplot 142
+% plot(10*log10(line14(:,trace_b)/max(max(line14))),0.5*v1*line14_t,'k','LineWidth',2); hold on;
+% axis ij; 
+% ylim([0 50]);
 
-subplot 142
-plot(10*log10(line14(:,trace_b)/max(max(line14))),0.5*v1*line14_t,'k','LineWidth',2); hold on;
-axis ij; 
-ylim([0 50]);
-
-subplot 143
+subplot 121
 plot((10*log10(line14(:,trace_a).^2)),0.5*v1*line14_t,'k','LineWidth',2); hold on;
 plot(10*log10(power(trace_a)),0.5*t_max(trace_a)*v1, 'r*');
 axis ij; 
 ylim([0 50]);
 
-subplot 144
+subplot 122
 plot((10*log10(line14(:,trace_b).^2)),0.5*v1*line14_t,'k','LineWidth',2); hold on;
 
 plot(10*log10(power(trace_b)),0.5*t_max(trace_b)*v1, 'r*');axis ij; 
@@ -195,18 +195,45 @@ axis ij;
 colormap parula;
 colorbar;
 
+%nadir oriented --> R^2 might be closer approximation 
+geometric_correction2 = power.*base_depth.^2;
+geometric_correction3 = power.*base_depth.^3;
+geometric_correction4 = power.*base_depth.^4;
 
-geometric_correction = power.*base_depth.^2;
+%normalize
+power = power./max(power);
+geometric_correction2 = geometric_correction2./max(geometric_correction2);
+geometric_correction3 = geometric_correction3./max(geometric_correction3);
+geometric_correction4 = geometric_correction4./max(geometric_correction4);
+
+
 
 figure(6);
-scatter(base_depth,10*log10(power));hold on;
-scatter(base_depth,10*log10(geometric_correction));
+scatter(base_depth(3:78),10*log10(power(3:78)),'k');hold on;
+scatter(base_depth(3:78),10*log10(geometric_correction2(3:78)),'r');
+scatter(base_depth(3:78),10*log10(geometric_correction3(3:78)),'b');
+scatter(base_depth(3:78),10*log10(geometric_correction4(3:78)),'c');
 
-fit = polyfit(base_depth(3:95),10*log10(geometric_correction(3:95)),1);
 
-plot(base_depth, fit(1)*base_depth+fit(2));
+fit = polyfit(base_depth(3:78),10*log10(power(3:78)),1);
+fit2 = polyfit(base_depth(3:78),10*log10(geometric_correction2(3:78)),1);
+fit3 = polyfit(base_depth(3:78),10*log10(geometric_correction3(3:78)),1);
+fit4 = polyfit(base_depth(3:78),10*log10(geometric_correction4(3:78)),1);
 
-%account for geometric spreading loss 
+X = 0:40;
+plot(X, fit(1)*X+fit(2),'k');
+plot(X, fit2(1)*X+fit2(2),'r');
+plot(X, fit3(1)*X+fit3(2),'b');
+plot(X, fit4(1)*X+fit4(2),'c');
 
-base_out = horzcat(topo_x,topo_E,topo_N,topo_z,base_interpolate);
-% writematrix(base_out,strcat('topo/line14_base.csv'));
+xlabel('Depth (m)');
+ylabel('10log_{10}(power)');
+legend('No correction','R^{2}','R^{3}','R^{4}','Location','southwest');
+xlim([10 40]);
+ylim([-30 0]);
+
+
+% %account for geometric spreading loss 
+% debris_interpolate = interp1(debris_interp.Position_m_, debris_interp.Depth_m_/v_int*v1, topo_x);
+% debris_out = horzcat(topo_x,topo_E,topo_N,topo_z,debris_interpolate);
+% writematrix(debris_out,strcat('topo/line16_debris.csv'));

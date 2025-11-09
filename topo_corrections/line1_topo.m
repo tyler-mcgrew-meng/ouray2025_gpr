@@ -31,7 +31,7 @@ imo_long_x = horzcat(MergedLine_x,MergedLine2_x); % 25 MHz
 % amplitude = line1;
 
 imo_long_topo = rmmissing(readtable('topo/imogene_long_topo_hires.csv')); topo_z = (imo_long_topo.z);
-topo_x = imo_long_topo.x;
+topo_x = imo_long_topo.x; topo_x = topo_x*(max(imo_long_x)/max(topo_x));
 
 % debris_interp = readtable('interp/line17-18_debris.csv', 'NumHeaderLines',3);
 % base_interp = readtable('interp/line17-18_base.csv', 'NumHeaderLines',3);
@@ -121,16 +121,16 @@ axis ij;
 colormap bone;
 
 figure(3);
-pcolor(MergedLine_x, imo_long_elev1, flipud(imo_shift1)); hold on;
-pcolor(MergedLine2_x, imo_long_elev2, flipud(imo_shift2));
+pcolor(MergedLine_x, imo_long_elev1./3, flipud(imo_shift1)); hold on;
+pcolor(MergedLine2_x, imo_long_elev2./3, flipud(imo_shift2));
 shading interp; 
-plot(imo_long_x, topo_interp,'k', 'LineWidth', 2);
-ylim([3450 max(topo_interp)]);
+plot(imo_long_x, topo_interp./3,'k', 'LineWidth', 2);
+ylim([3450 max(topo_interp)]/3);
 xlim([0 495]);
 caxis([-5e6 5e6]);
 colormap bone;
 % cmocean('balance');
 set(gca, 'FontSize', 20);
-xlabel('Horizontal Position (m)','FontSize',30);
+xlabel('Trace Position (m)','FontSize',30);
 ylabel('Elevation (m)', 'FontSize', 30);
 % title('Lines 17 & 18','FontSize',30);
