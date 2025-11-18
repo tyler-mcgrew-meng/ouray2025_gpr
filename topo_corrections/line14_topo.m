@@ -14,7 +14,7 @@ clear all; close all;
 
 
 % load GPR and topography data 
-load('csv/line14.mat');
+load('data/line14.mat');
 % imo_long_x = 0:0.25:99; % 100 MHz
 
 imo_long_x = line14_x; % 25 MHz
@@ -29,7 +29,7 @@ topo_E = imo_long_topo.E;
 topo_N = imo_long_topo.N;
 
 % debris_interp = readtable('interp/line147-18_debris.csv', 'NumHeaderLines',3);
-base_interp = readtable('ouray_interps/Lineset/line14_base-Point.csv', 'NumHeaderLines',3);
+base_interp = readtable('ouray_interps/line14_base-Point.csv', 'NumHeaderLines',3);
 
 %assumed or measured velocity (m/ns)
 v1 = 0.15;
@@ -242,7 +242,7 @@ base_interpolate = base_interpolate(isnan(base_interpolate) == 0);
 base_out = horzcat(topo_x,topo_E,topo_N,topo_z,base_interpolate);
 headers = {'x' 'E' 'N' 'z' 'h'};
 cell = [headers; num2cell(base_out)];
-writecell(cell,'topo/linenumber_base.csv');
+writecell(cell,'output/linenumber_base.csv');
 
 
 % writematrix(debris_out,strcat('topo/line14_base.csv'));
