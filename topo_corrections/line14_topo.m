@@ -234,6 +234,18 @@ ylim([-30 0]);
 
 
 % %account for geometric spreading loss 
-% debris_interpolate = interp1(debris_interp.Position_m_, debris_interp.Depth_m_/v_int*v1, topo_x);
-% debris_out = horzcat(topo_x,topo_E,topo_N,topo_z,debris_interpolate);
-% writematrix(debris_out,strcat('topo/line16_debris.csv'));
+
+%write to csv file 
+base_interpolate = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, topo_x);
+topo_x = topo_x(isnan(base_interpolate) == 0);
+topo_E = topo_E(isnan(base_interpolate) == 0);
+topo_N = topo_N(isnan(base_interpolate) == 0);
+topo_z = topo_z(isnan(base_interpolate) == 0);
+base_interpolate = base_interpolate(isnan(base_interpolate) == 0);
+base_out = horzcat(topo_x,topo_E,topo_N,topo_z,base_interpolate);
+headers = {'x' 'E' 'N' 'z' 'h'};
+cell = [headers; num2cell(base_out)];
+writecell(cell,'topo/linenumber_base.csv');
+
+
+% writematrix(debris_out,strcat('topo/line14_base.csv'));
