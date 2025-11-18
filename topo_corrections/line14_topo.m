@@ -206,14 +206,11 @@ geometric_correction2 = geometric_correction2./max(geometric_correction2);
 geometric_correction3 = geometric_correction3./max(geometric_correction3);
 geometric_correction4 = geometric_correction4./max(geometric_correction4);
 
-
-
 figure(6);
 scatter(base_depth(3:78),10*log10(power(3:78)),'k');hold on;
 scatter(base_depth(3:78),10*log10(geometric_correction2(3:78)),'r');
 scatter(base_depth(3:78),10*log10(geometric_correction3(3:78)),'b');
 scatter(base_depth(3:78),10*log10(geometric_correction4(3:78)),'c');
-
 
 fit = polyfit(base_depth(3:78),10*log10(power(3:78)),1);
 fit2 = polyfit(base_depth(3:78),10*log10(geometric_correction2(3:78)),1);
