@@ -230,7 +230,6 @@ xlim([10 40]);
 ylim([-30 0]);
 
 
-% %account for geometric spreading loss 
 
 %write to csv file 
 base_interpolate = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, topo_x);
