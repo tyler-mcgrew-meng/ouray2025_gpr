@@ -130,9 +130,9 @@ plot(imo_long_x, topo_interp,'.');
 figure(2);
 pcolor(imo_long_x, imo_long_depth, imo_long_gain); hold on;
 shading interp; 
-plot(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, 'r-','LineWidth',4);
+% plot(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, 'r-','LineWidth',4);
 
-plot(imo_long_x(2:96),0.5*t_max*v1, 'm*','LineWidth',4);
+% plot(imo_long_x(2:96),0.5*t_max*v1, 'm*','LineWidth',4);
 % plot(debris_interp.Position_m_, debris_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
 ylim([0 50]);
 caxis([-5e6 5e6]);

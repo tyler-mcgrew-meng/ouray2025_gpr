@@ -9,8 +9,8 @@ clear all; close all;
 
 
 % load GPR and topography data 
-load('csv/imo_long_1.mat');
-load('csv/imo_long_2.mat');
+load('data/imo_long_1.mat');
+load('data/imo_long_2.mat');
 
 % imo_long_x = 0:0.25:99; % 100 MHz
 
