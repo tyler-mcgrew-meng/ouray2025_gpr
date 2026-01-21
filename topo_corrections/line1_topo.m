@@ -1,38 +1,30 @@
-%
 clear all; close all;
 
 %import tool
 %double click on csv file, select numeric matrix option 
 %select range of position row (row 2), and import selection, change variable name to line#_x
-%slect range of time column (column B), and import selection, change
+%select range of time column (column B), and import selection, change
 %variable name to line#_t
 
+% load GPR and topography data from preconverted .mat files
+%containing a 1xN x array, and Mx1 t array, and a MxN data matrix for each
+%GPR profile
 
-% load GPR and topography data 
+%this script merges two adjacent profiles together 
 load('data/imo_long_1.mat');
 load('data/imo_long_2.mat');
 
-% imo_long_x = 0:0.25:99; % 100 MHz
-
-
+%connect position arrays
 MergedLine2_x = MergedLine2_x + max(MergedLine_x);
-% 
-% figure(1);
-% pcolor(MergedLine2_x,MergedLine2_t, MergedLine2); hold on; shading interp; axis ij; colormap bone;
-% pcolor(MergedLine_x,MergedLine_t, MergedLine); shading interp;
-% clim([-1e4 1e4]);
-% 
-% xlim([0 500]);
+imo_long_x = horzcat(MergedLine_x,MergedLine2_x); 
 
-imo_long_x = horzcat(MergedLine_x,MergedLine2_x); % 25 MHz
+%load topographic profile extracted from DEM along GPR line
+imo_long_topo = rmmissing(readtable('topo/imogene_long_topo_hires.csv')); 
+topo_z = (imo_long_topo.z);
+topo_x = imo_long_topo.x; 
+topo_x = topo_x*(max(imo_long_x)/max(topo_x));
 
-% imo_long_x = 0:96; % 25 MHz
-% imo_long_t = line1_t;
-% amplitude = line1;
-
-imo_long_topo = rmmissing(readtable('topo/imogene_long_topo_hires.csv')); topo_z = (imo_long_topo.z);
-topo_x = imo_long_topo.x; topo_x = topo_x*(max(imo_long_x)/max(topo_x));
-
+%interpretation files if applicable
 % debris_interp = readtable('interp/line17-18_debris.csv', 'NumHeaderLines',3);
 % base_interp = readtable('interp/line17-18_base.csv', 'NumHeaderLines',3);
 
@@ -48,7 +40,7 @@ imo_long_depth2 = 0.5*v1.*MergedLine2_t;
 dz1 = abs(imo_long_depth1(2) - imo_long_depth1(1));
 dz2 = abs(imo_long_depth2(2) - imo_long_depth2(1));
 
-% apply manual power law gain function fo plotting
+% apply manual power law gain function for plotting
 for i = 1:size(MergedLine,1)
     imo_long_gain1(i, :) = MergedLine(i, :).*(0.2).*i.^(1.9);
 end
@@ -68,14 +60,12 @@ imo_long_depth2 = imo_long_depth2(imo_long_depth2 >= 0);
 L1 = length(imo_long_depth1);
 L2 = length(imo_long_depth2);
 
-%datum to highest elevation in profile
-datum = max(topo_z);
-
 %interpolate topography data to match GPR sample spacing 
 topo_x = topo_x(2:length(topo_x)-1); topo_z = topo_z(2:length(topo_z)-1);
 F = griddedInterpolant(topo_x, topo_z)
 topo_interp = F(imo_long_x);
 
+%datum to highest elevation in profile
 datum = max(topo_interp);
 
 % calculate elevation offset in meters and array indices
@@ -90,9 +80,7 @@ imo_long_elev2 = min(topo_z)- max(imo_long_depth2)-max(shift):dz2:max(topo_inter
 
 %shift from depth to elevation space 
 imo_shift1 = zeros(length(imo_long_elev1),length(MergedLine_x));
-
 imo_shift2 = zeros(length(imo_long_elev2),length(MergedLine2_x));
-
 
 for j = 1:length(MergedLine_x) 
    imo_shift1(shift_num1(j)+1:shift_num1(j)+L1,j) = imo_long_gain1(:,j);
@@ -103,11 +91,11 @@ for j = 1:length(MergedLine2_x)
 end
 
 %plots
-figure(1); 
+figure(1); %original vs. interpolated topography
 plot(topo_x, topo_z, 'o'); hold on;
 plot(imo_long_x, topo_interp,'.');
 
-figure(2);
+figure(2); %flattened radargram
 pcolor(MergedLine_x, imo_long_depth1, imo_long_gain1); hold on;
 pcolor(MergedLine2_x, imo_long_depth2, imo_long_gain2);
 shading interp; 
@@ -120,12 +108,12 @@ caxis([-5e6 5e6]);
 axis ij;
 colormap bone;
 
-figure(3);
-pcolor(MergedLine_x, imo_long_elev1./3, flipud(imo_shift1)); hold on;
-pcolor(MergedLine2_x, imo_long_elev2./3, flipud(imo_shift2));
+figure(3); %topo correction 
+pcolor(MergedLine_x, imo_long_elev1, flipud(imo_shift1)); hold on;
+pcolor(MergedLine2_x, imo_long_elev2, flipud(imo_shift2));
 shading interp; 
-plot(imo_long_x, topo_interp./3,'k', 'LineWidth', 2);
-ylim([3450 max(topo_interp)]/3);
+plot(imo_long_x, topo_interp,'k', 'LineWidth', 2);
+ylim([3450 max(topo_interp)]);
 xlim([0 495]);
 caxis([-5e6 5e6]);
 colormap bone;
