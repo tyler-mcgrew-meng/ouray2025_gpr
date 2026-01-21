@@ -67,7 +67,7 @@ subplot 121
 axis ij; hold on;
 plot(L1s_x, L1s_t,'o','Color','#EDB120','LineWidth',2);
 plot(L1r_x, L1r_t,'o','Color','#EDB120','LineWidth',2);
-plot(X, Surf, X, Ref,'LineWidth',2); 
+plot(X, Surf,'k-', X, Ref,'k-','LineWidth',2); 
 p1 = plot(imo.Position_m_,imo.Time_ns_,'o','Color','#4DBEEE','LineWidth',2);
 p2 = plot(imo.Position_m_, t1, 'k-','LineWidth',2);
 
