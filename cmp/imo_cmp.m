@@ -57,6 +57,7 @@ sqrt1 = sqrt(sig1)*ones(length(t1),1);
 neg = [v1-v1p];  
 pos = [v1n-v1];
 
+%best-fit depth bounds
 d1 = 0.5*v1*t01;
 d1n = 0.5*v1n*t01;
 d1p = 0.5*v1p*t01;

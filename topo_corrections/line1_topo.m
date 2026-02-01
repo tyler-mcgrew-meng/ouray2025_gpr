@@ -62,7 +62,7 @@ L2 = length(imo_long_depth2);
 
 %interpolate topography data to match GPR sample spacing 
 topo_x = topo_x(2:length(topo_x)-1); topo_z = topo_z(2:length(topo_z)-1);
-F = griddedInterpolant(topo_x, topo_z)
+F = griddedInterpolant(topo_x, topo_z);
 topo_interp = F(imo_long_x);
 
 %datum to highest elevation in profile
