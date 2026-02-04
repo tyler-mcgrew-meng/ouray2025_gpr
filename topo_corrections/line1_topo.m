@@ -122,3 +122,15 @@ set(gca, 'FontSize', 20);
 xlabel('Trace Position (m)','FontSize',30);
 ylabel('Elevation (m)', 'FontSize', 30);
 % title('Lines 17 & 18','FontSize',30);
+
+%write to csv file 
+base_interpolate = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, topo_x);
+topo_x = topo_x(isnan(base_interpolate) == 0);
+topo_E = topo_E(isnan(base_interpolate) == 0);
+topo_N = topo_N(isnan(base_interpolate) == 0);
+topo_z = topo_z(isnan(base_interpolate) == 0);
+base_interpolate = base_interpolate(isnan(base_interpolate) == 0);
+base_out = horzcat(topo_x,topo_E,topo_N,topo_z,base_interpolate);
+headers = {'x' 'E' 'N' 'z' 'h'};
+cell = [headers; num2cell(base_out)];
+writecell(cell,'output/linenumber_base.csv');
