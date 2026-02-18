@@ -1,7 +1,7 @@
 
 %%make a plot for mixing model results
 %Supplementary Figure S5
-clear all; clf; clc;
+clear all; clf; clc; close all; 
 
 C = 3e-1; %speed of vacuum light [m/ns]
 
