@@ -14,16 +14,16 @@ clear all; close all;
 
 
 % load GPR and topography data 
-load('data/line12_13.mat');
+load('data/line10_11.mat');
 % imo_long_x = 0:0.25:99; % 100 MHz
 
-imo_long_x = MergedLine_12_13_x; % 25 MHz
+imo_long_x = MergedLine_10_11_x; % 25 MHz
 
 % imo_long_x = 0:96; % 25 MHz
-imo_long_t = MergedLine_12_13_t;
-amplitude = MergedLine_12_13;
+imo_long_t = MergedLine_10_11_t;
+amplitude = MergedLine_10_11;
 
-imo_long_topo = rmmissing(readtable('topo/line12-13_topo_hires.csv')); topo_z = (imo_long_topo.z);
+imo_long_topo = rmmissing(readtable('topo/line10-11_topo_hires.csv')); topo_z = (imo_long_topo.z);
 topo_x = imo_long_topo.x;
 
 % debris_interp = readtable('interp/line147-18_debris.csv', 'NumHeaderLines',3);
@@ -105,7 +105,7 @@ shading interp; hold on;
 plot(imo_long_x, topo_interp,'k', 'LineWidth', 2);
 ylim([3700 max(imo_long_elev)]);
 % xlim([0 100]);
-caxis([-1 1]*1e6);
+caxis([-5e6 5e6]);
 colormap bone;
 % cmocean('balance');
 set(gca, 'FontSize', 20);
