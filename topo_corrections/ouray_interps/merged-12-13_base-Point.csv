@@ -1,0 +1,17 @@
+"Name","Description","Count"
+"merged-12-13_base","",13
+,,,,,,,,,,,,,
+"Tool","Interpretation","GPR Line","Interpretation Number","Position(m)","X(m)","Y(m)","Z(m)","Depth(m)","Time(ns)","Amplitude(mV)","Velocity(m/ns)","GPS-n/a","GPS-n/a","GPS-n/a","GPS-n/a","Elevation(m)","GPS-n/a","Comment"
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,0.721,0.721,0.000,-41.410,41.410,578.92,-0.202,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,7.583,7.583,0.000,-42.204,42.204,590.24,-0.137,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,15.109,15.109,0.000,-42.997,42.997,601.57,-0.081,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,27.504,27.504,0.000,-43.703,43.703,611.64,-0.123,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,41.892,41.892,0.000,-42.204,42.204,590.24,-0.148,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,52.960,52.960,0.000,-39.381,39.381,549.97,-0.339,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,69.561,69.561,0.000,-46.613,46.613,653.17,-0.042,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,94.352,94.352,0.000,-43.086,43.086,602.83,-0.082,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,114.605,114.605,0.000,-46.172,46.172,646.88,0.038,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,142.606,142.606,0.000,-42.821,42.821,599.05,-0.179,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,159.871,159.871,0.000,-42.557,42.557,595.28,-0.196,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,176.915,176.915,0.000,-41.675,41.675,582.69,-0.461,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
+"Point","merged-12-13_base","Lineset\MergedLine_12-13",15,191.302,191.302,0.000,-42.821,42.821,599.05,-0.305,0.140,N/A,N/A,N/A,N/A,N/A,N/A,""
