@@ -37,6 +37,7 @@ base_interp2.Position_m_ = base_interp2.Position_m_+ max(MergedLine_x);
 base_interp.x = vertcat(base_interp1.Position_m_, base_interp2.Position_m_);
 base_interp.z = vertcat(base_interp1.Depth_m_, base_interp2.Depth_m_);
 
+MergedLine2_x = MergedLine2_x + max(MergedLine_x);
 
 
 %assumed or measured velocity (m/ns)

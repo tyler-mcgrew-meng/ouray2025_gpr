@@ -14,22 +14,22 @@ clear all; close all;
 
 
 % load GPR and topography data 
-% load('data/line4.mat');
-% % imo_long_x = 0:0.25:99; % 100 MHz
-% 
-% imo_long_x = line4_x; % 25 MHz
-% 
-% % imo_long_x = 0:96; % 25 MHz
-% imo_long_t = line4_t;
-% amplitude = line4;
+load('data/line8.mat');
+% imo_long_x = 0:0.25:99; % 100 MHz
 
-imo_long_topo = rmmissing(readtable('topo/line4_topo_hires.csv')); topo_z = (imo_long_topo.z);
+imo_long_x = line8_x; % 25 MHz
+
+% imo_long_x = 0:96; % 25 MHz
+imo_long_t = line8_t;
+amplitude = line8;
+
+imo_long_topo = rmmissing(readtable('topo/line8_topo_hires.csv')); topo_z = (imo_long_topo.z);
 topo_x = imo_long_topo.x;
 topo_E = imo_long_topo.E;
 topo_N = imo_long_topo.N;
 
 % debris_interp = readtable('interp/line147-18_debris.csv', 'NumHeaderLines',3);
-base_interp = readtable('ouray_interps/line4_base-Point.csv', 'NumHeaderLines',3);
+base_interp = readtable('ouray_interps/line8_base-Point.csv', 'NumHeaderLines',3);
 
 %assumed or measured velocity (m/ns)
 v1 = 0.14;
@@ -38,42 +38,42 @@ v_int = base_interp.Velocity_m_ns_(1); %ensure velocities are consistent between
 
 %$ Topographic correction using GPR data and a separate elevation profile 
 %depth correction from time to depth space
-% imo_long_depth = 0.5*v1.*imo_long_t;
-% 
-% %vertical sample interval in meters
-% dz = abs(imo_long_depth(2) - imo_long_depth(1));
-% 
-% % apply manual power law gain function fo plotting
-% for i = 1:size(amplitude,1)
-%     imo_long_gain(i, :) = amplitude(i, :).*(0.2).*i.^(1.7);
-% end
-% 
-% %start at t = 0 
-% imo_long_gain = imo_long_gain(imo_long_depth >= 0,:);
-% imo_long_depth = imo_long_depth(imo_long_depth >= 0);
-% 
-% %number of samples per trace 
-% L = length(imo_long_depth);
-% 
-% %datum to highest elevation in profile
-% datum = max(topo_z);
-% 
-% %interpolate topography data to match GPR sample spacing 
-% topo_x = topo_x(2:length(topo_x)-1); topo_z = topo_z(2:length(topo_z)-1);
-% topo_E = topo_E(2:length(topo_E)-1); topo_N = topo_N(2:length(topo_N)-1);
-% 
-% %%%for hi-resolution topography, I had to modify these specific x values
-% %because of the parsing of the QGIS-exported topography profile, leading to
-% %repeated values at these specific indices, throwing an error when calling
-% %"griddedInterpolant"
-% % topo_x(286:313) = 10.03:0.03:10.84;
-% 
-% F = griddedInterpolant(topo_x, topo_z);
-% topo_interp = F(imo_long_x);
-% % topo_interp = interp1(topo_x,topo_z,imo_long_x);
-% datum = max(topo_interp);
+imo_long_depth = 0.5*v1.*imo_long_t;
 
-base_interpolate = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, topo_x);
+%vertical sample interval in meters
+dz = abs(imo_long_depth(2) - imo_long_depth(1));
+
+% apply manual power law gain function fo plotting
+for i = 1:size(amplitude,1)
+    imo_long_gain(i, :) = amplitude(i, :).*(0.2).*i.^(1.7);
+end
+
+%start at t = 0 
+imo_long_gain = imo_long_gain(imo_long_depth >= 0,:);
+imo_long_depth = imo_long_depth(imo_long_depth >= 0);
+
+%number of samples per trace 
+L = length(imo_long_depth);
+
+%datum to highest elevation in profile
+datum = max(topo_z);
+
+%interpolate topography data to match GPR sample spacing 
+topo_x = topo_x(2:length(topo_x)-1); topo_z = topo_z(2:length(topo_z)-1);
+topo_E = topo_E(2:length(topo_E)-1); topo_N = topo_N(2:length(topo_N)-1);
+
+%%%for hi-resolution topography, I had to modify these specific x values
+%because of the parsing of the QGIS-exported topography profile, leading to
+%repeated values at these specific indices, throwing an error when calling
+%"griddedInterpolant"
+% topo_x(286:313) = 10.03:0.03:10.84;
+
+F = griddedInterpolant(topo_x, topo_z);
+topo_interp = F(imo_long_x);
+% topo_interp = interp1(topo_x,topo_z,imo_long_x);
+datum = max(topo_interp);
+
+% base_interpolate = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, topo_x);
 % base_trace = interp1(base_interp.Position_m_, base_interp.Time_ns_, imo_long_x);
 % base_depth = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, imo_long_x);
 
@@ -109,53 +109,53 @@ base_interpolate = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v
 % end
 
 % calculate elevation offset in meters and array indices
-% shift = datum-topo_interp;
-% shift_num = ceil(shift./dz);
-% 
-% %create grid in elevation space
-% imo_long_elev = min(topo_z)- max(imo_long_depth)-max(shift):dz:max(topo_interp);
-% 
-% %shift from depth to elevation space 
-% imo_long_shift = zeros(length(imo_long_elev),length(imo_long_x));
-% 
-% for j = 1:length(imo_long_x) 
-%    imo_long_shift(shift_num(j)+1:shift_num(j)+L,j) = imo_long_gain(:,j);
-% end
-% 
-% base_interpolate = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, topo_x);
+shift = datum-topo_interp;
+shift_num = ceil(shift./dz);
+
+%create grid in elevation space
+imo_long_elev = min(topo_z)- max(imo_long_depth)-max(shift):dz:max(topo_interp);
+
+%shift from depth to elevation space 
+imo_long_shift = zeros(length(imo_long_elev),length(imo_long_x));
+
+for j = 1:length(imo_long_x) 
+   imo_long_shift(shift_num(j)+1:shift_num(j)+L,j) = imo_long_gain(:,j);
+end
+
+base_interpolate = interp1(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, topo_x);
 
 
 %plots
-% figure(1); 
-% plot(topo_x, topo_z, 'o'); hold on;
-% plot(imo_long_x, topo_interp,'.');
-% 
-% figure(2);
-% pcolor(imo_long_x, imo_long_depth, imo_long_gain); hold on;
-% shading interp; 
-% plot(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, 'r-','LineWidth',4);
-% 
-% % plot(imo_long_x(2:96),0.5*t_max*v1, 'm*','LineWidth',4);
-% % plot(debris_interp.Position_m_, debris_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
-% ylim([0 50]);
-% caxis([-5e6 5e6]);
-% axis ij;
-% colormap bone;
-% 
-% figure(3);
-% pcolor(imo_long_x, imo_long_elev, flipud(imo_long_shift)); 
-% shading interp; hold on;
-% plot(imo_long_x, topo_interp,'k', 'LineWidth', 2);
-% p0 = plot(topo_x, topo_z-base_interpolate,'r-', 'LineWidth', 4);
-% ylim([3580 max(imo_long_elev)]);
-% % xlim([0 100]);
-% caxis([-5e6 5e6]);
-% colormap bone;
-% % cmocean('balance');
-% set(gca, 'FontSize', 20);
-% xlabel('Horizontal Position (m)','FontSize',30);
-% ylabel('Elevation (m)', 'FontSize', 30);
-% % title('Lines 17 & 18','FontSize',30);
+figure(1); 
+plot(topo_x, topo_z, 'o'); hold on;
+plot(imo_long_x, topo_interp,'.');
+
+figure(2);
+pcolor(imo_long_x, imo_long_depth, imo_long_gain); hold on;
+shading interp; 
+plot(base_interp.Position_m_, base_interp.Depth_m_/v_int*v1, 'r-','LineWidth',4);
+
+% plot(imo_long_x(2:96),0.5*t_max*v1, 'm*','LineWidth',4);
+% plot(debris_interp.Position_m_, debris_interp.Depth_m_/0.1*v1, 'r-','LineWidth',2);
+ylim([0 50]);
+caxis([-5e6 5e6]);
+axis ij;
+colormap bone;
+
+figure(3);
+pcolor(imo_long_x, imo_long_elev, flipud(imo_long_shift)); 
+shading interp; hold on;
+plot(imo_long_x, topo_interp,'k', 'LineWidth', 2);
+p0 = plot(topo_x, topo_z-base_interpolate,'r-', 'LineWidth', 4);
+ylim([3580 max(imo_long_elev)]);
+% xlim([0 100]);
+caxis([-5e6 5e6]);
+colormap bone;
+% cmocean('balance');
+set(gca, 'FontSize', 20);
+xlabel('Horizontal Position (m)','FontSize',30);
+ylabel('Elevation (m)', 'FontSize', 30);
+% title('Lines 17 & 18','FontSize',30);
 
 % trace_a = 10;
 % trace_b = 86;
@@ -222,4 +222,4 @@ base_interpolate = base_interpolate(isnan(base_interpolate) == 0);
 base_out = horzcat(topo_x,topo_E,topo_N,topo_z,base_interpolate);
 headers = {'x' 'E' 'N' 'z' 'h'};
 cell = [headers; num2cell(base_out)];
-writecell(cell,'output/line4_base.csv');
+writecell(cell,'output/line8_base.csv');
